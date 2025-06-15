@@ -14,4 +14,5 @@ add_executable(${PROJECT_NAME}
     src/lib/hashmap.c
     src/lib/vector.c
     src/storage.c
+    src/todo.c
 )

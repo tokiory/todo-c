@@ -1,5 +1,7 @@
 #include "command.h"
 #include "storage.h"
+#include "todo.h"
+
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
@@ -19,7 +21,8 @@ int main(int argc, char *argv[]) {
   Storage s = storage_create("storage.txt");
   storage_load(s);
 
-  printf("%s", (char *)vector_get(storage_lines(s), 0));
+  Todo todo = todo_create();
+  todo = todo_fill(todo, s);
 
   return 0;
 }

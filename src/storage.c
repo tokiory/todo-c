@@ -18,13 +18,20 @@ Storage storage_create(const char *path) {
   return s;
 }
 
-void storage_load(Storage s) {
+FILE *storage_file(Storage s) {
   FILE *f = fopen(s->path, "r");
 
   if (f == NULL) {
-    perror("Can't load the storage");
-    return;
+    printf("Can't load the storage, so we're creating a new one\n");
+    f = fopen(s->path, "w");
+    return f;
   }
+
+  return f;
+}
+
+void storage_load(Storage s) {
+  FILE *f = storage_file(s);
 
   char *line = NULL;
   size_t len = 0;
@@ -42,7 +49,7 @@ void storage_load(Storage s) {
   fclose(f);
 }
 
-void storage_write(Storage s);
+void storage_write(Storage s) {};
 
 Vector storage_lines(Storage s) { return s->lines; }
 

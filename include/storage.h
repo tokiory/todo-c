@@ -1,5 +1,8 @@
 #include "vector.h"
 
+#ifndef STORAGE_H
+#define STORAGE_H
+
 struct Storage;
 typedef struct Storage *Storage;
 
@@ -8,3 +11,5 @@ void storage_load(Storage s);
 void storage_write(Storage s);
 Vector storage_lines(Storage s);
 void storage_destroy(Storage s);
+
+#endif
