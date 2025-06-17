@@ -63,11 +63,9 @@ FILE *f = fopen(s->path, "w");
   }
 
   size_t count = vector_size(s->lines);
-  printf("DEBUG: storage_write - writing %zu lines\n", count);
   for (size_t i = 0; i < count; i++) {
     char *line = (char*)vector_get(s->lines, i);
     if (line == NULL) continue;
-    printf("DEBUG: storage_write - line: '%s'\n", line);
     fprintf(f, "%s\n", line);
   }
 

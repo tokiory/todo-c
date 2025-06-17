@@ -38,7 +38,6 @@ void storage_to_todo(Storage s, Todo t) {
 void todo_to_storage(Todo t, Storage s) {
   Vector tasks = hashmap_entries(t->tasks);
   Vector lines = vector_create(sizeof(char*));
-  printf("DEBUG: Found %lu tasks\n", vector_size(tasks));
   for (int i = 0; i < vector_size(tasks); i++) {
     TodoTask *task_ptr = vector_get(tasks, i);
     if (task_ptr == NULL) continue;
@@ -46,10 +45,8 @@ void todo_to_storage(Todo t, Storage s) {
     char *id = task->id;
     char *title = task->title;
     char *status = task->is_done ? "1" : "0";
-    printf("DEBUG: Task ID: '%s', Title: '%s', Status: '%s'\n", id, title, status);
     char *line = malloc(strlen(id) + strlen(title) + strlen(status) + 3);
     sprintf(line, "%s\t%s\t%s", id, title, status);
-    printf("DEBUG: Line: '%s'\n", line);
     vector_push(lines, line);
   }
 
