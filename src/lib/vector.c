@@ -12,8 +12,8 @@ struct Vector {
 
 typedef struct Vector* Vector;
 
-Vector vector_create(uintptr_t datasize) {
-  Vector v = malloc(sizeof(Vector));
+Vector vector_create(size_t datasize) {
+  Vector v = malloc(sizeof(struct Vector));
   v->_data = malloc(sizeof(void *) * VECTOR_INITIAL_CAPACITY);
   v->_capacity = VECTOR_INITIAL_CAPACITY;
   v->_size = 0;
@@ -30,7 +30,7 @@ void vector_destroy(Vector v) {
 void *vector_push(Vector v, void *value) {
   if (v->_size >= v->_capacity) {
     v->_capacity *= 2;
-    v->_data = realloc(v->_data, v->_capacity * v->_datasize);
+    v->_data = realloc(v->_data, v->_capacity * sizeof(void*));
   }
 
   v->_data[v->_size++] = value;

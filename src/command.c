@@ -31,6 +31,12 @@ bool _is_command_list(const char *command) {
   return _is_command((const char *[]){"ls", "--list", "-l"}, 3, command);
 }
 
+bool _is_command_done(const char *command) {
+  return _is_command((const char *[]){"done", "do", "--do", "--done"}, 4, command);
+}
+
+
+
 bool _is_command_upd(const char *command) {
   return _is_command((const char *[]){"upd", "u", "--update", "-u"}, 4,
                      command);
@@ -39,6 +45,10 @@ bool _is_command_upd(const char *command) {
 enum CommandType get_command_type(const char *command) {
   if (_is_command_help(command)) {
     return COMMAND_TYPE_HELP;
+  }
+
+  if (_is_command_done(command)) {
+    return COMMAND_TYPE_DONE;
   }
 
   if (_is_command_list(command)) {
@@ -68,4 +78,5 @@ void print_help() {
   printf("\tdel, d, -d, --del:\tDeletes a task\n");
   printf("\tls, --list, -l:\t\tLists all tasks\n");
   printf("\tupd, u, --update, -u:\tUpdates a task\n");
+  printf("\tdone, do, --done:\tMarks a task as done\n");
 }

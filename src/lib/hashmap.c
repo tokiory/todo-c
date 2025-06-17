@@ -20,6 +20,18 @@ struct Hashmap {
   struct HashmapEntry **_buckets;
 };
 
+Vector hashmap_entries(Hashmap h) {
+  Vector entries = vector_create(sizeof(void*));
+  for (unsigned i = 0; i < HASHMAP_BUCKETS_AMOUNT; i++) {
+    HashmapEntry entry = h->_buckets[i];
+    while (entry != NULL) {
+      vector_push(entries, &(entry->value));
+      entry = entry->next;
+    }
+  }
+  return entries;
+}
+
 HashmapEntry _hashmap_entry_create(char *k, void *v) {
   HashmapEntry e = malloc(sizeof(struct HashmapEntry));
   e->key = k;
@@ -72,12 +84,15 @@ void hashmap_set(Hashmap h, char *key, void *value) {
   while (entry != NULL) {
     if (strcmp(entry->key, key) == 0) {
       entry->value = value;
+      return;
     }
 
     if (entry->next == NULL) {
       entry->next = _hashmap_entry_create(key, value);
       break;
     }
+    
+    entry = entry->next;
   }
 }
 
@@ -100,16 +115,18 @@ void hashmap_del(Hashmap h, char *key) {
   HashmapEntry entry = h->_buckets[bucket_idx];
   HashmapEntry previous_entry = NULL;
 
-  for (HashmapEntry entry = h->_buckets[bucket_idx]; entry != NULL;
-       entry = entry->next) {
+  while (entry != NULL) {
     if (strcmp(entry->key, key) == 0) {
       if (previous_entry != NULL) {
         previous_entry->next = entry->next;
+      } else {
+        h->_buckets[bucket_idx] = entry->next;
       }
       _hashmap_entry_destroy(entry);
+      return;
     }
-
     previous_entry = entry;
+    entry = entry->next;
   }
 }
 

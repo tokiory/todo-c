@@ -15,4 +15,5 @@ add_executable(${PROJECT_NAME}
     src/lib/vector.c
     src/storage.c
     src/todo.c
+    src/adapter.c
 )
